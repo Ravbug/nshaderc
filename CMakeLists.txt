@@ -23,3 +23,4 @@ add_subdirectory("deps/fmt" EXCLUDE_FROM_ALL)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ShaderTranspiler cxxopts fmt)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT "${PROJECT_NAME}")
+set_target_properties("${PROJECT_NAME}" PROPERTIES XCODE_GENERATE_SCHEME ON)
