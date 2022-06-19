@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
 			{"OpenGLES",TargetAPI::OpenGL_ES},
 			{"OpenGL",TargetAPI::OpenGL},
 			{"Vulkan", TargetAPI::Vulkan},
-			{"DirectX", TargetAPI::DirectX11},
+			{"DirectX", TargetAPI::DirectX},
 			{"Metal", TargetAPI::Metal}
 		};
 		try{
@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
 	try{
 		auto result = transpiler.CompileTo(task, api, {.version = version, .mobile = args["mobile"].as<bool>()});
 		ofstream out(outputFile);
-		out << result.data;
+		out << result.data.result;
 		if (!out.good()){
 			FATAL(fmt::format("Error writing to {}", outputFile.string()));
 		}
