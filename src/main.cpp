@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <filesystem>
 #include <unordered_map>
 #include <cxxopts.hpp>
@@ -18,26 +19,28 @@ int main(int argc, char** argv) {
 		("f,file", "Input file path", cxxopts::value<filesystem::path>())
 		("o,output", "Ouptut file path", cxxopts::value<filesystem::path>())
 		("a,api","Target API", cxxopts::value<string>())
+		("c,compatibility","Target API minimum compatibility", cxxopts::value<uint32_t>())
+		("m,mobile", "Mobile backend (default false)", cxxopts::value<bool>()->default_value("false"))
 		("s,stage","Shader stage", cxxopts::value<std::string>())
 		("i,include","Include paths", cxxopts::value<std::vector<filesystem::path>>())
 		//("v,verbose", "Verbose logs")
 		;
 	auto args = options.parse(argc, argv);
 	if (args["version"].as<bool>()) {
-		printf("%s", fmt::format("nshaderc version 0.0.1").c_str());
+		printf("%s", fmt::format("nshaderc version 0.0.1\n").c_str());
 	}
 
 	// check for input and output file
 	std::filesystem::path inputFile;
 	try{
-		inputFile = std::move(args["file"].as<std::filesystem::path>());
+		inputFile = std::move(args["file"].as<decltype(inputFile)>());
 	}
 	catch(exception& e){
 		FATAL("no input file")
 	}
 	std::filesystem::path outputFile;
 	try{
-		outputFile = std::move(args["output"].as<std::filesystem::path>());
+		outputFile = std::move(args["output"].as<decltype(outputFile)>());
 	}
 	catch(exception& e){
 		FATAL("no output file")
@@ -92,13 +95,26 @@ int main(int argc, char** argv) {
 	catch (exception& e){
 		FATAL("target API not provided")
 	}
+	// get target API version
+	uint32_t version = 0;
+	try{
+		version = args["compatibility"].as<decltype(version)>();
+	}
+	catch(exception& e){
+		FATAL("backend compatibility version not set")
+	}
 	
-	FileCompileTask task{inputFile,ShaderStage::Vertex};
+	FileCompileTask task{std::move(inputFile),ShaderStage::Vertex};
 	
 	ShaderTranspiler transpiler;
 	
 	try{
-		transpiler.CompileTo(task, api, {});
+		auto result = transpiler.CompileTo(task, api, {.version = version, .mobile = args["mobile"].as<bool>()});
+		ofstream out(outputFile);
+		out << result.data;
+		if (!out.good()){
+			FATAL(fmt::format("Error writing to {}", outputFile.string()));
+		}
 	}
 	catch(exception& e){
 		FATAL(e.what());
