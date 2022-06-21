@@ -8,7 +8,7 @@ endif()
 file(GLOB SRC "src/*.hpp" "src/*.cpp" "src/*.h")
 
 add_executable(${PROJECT_NAME} ${SRC})
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 set(ST_ENABLE_TEST OFF CACHE INTERNAL "")
 add_subdirectory("deps/ShaderTranspiler" EXCLUDE_FROM_ALL)

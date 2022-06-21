@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <cxxopts.hpp>
 #include <fmt/format.h>
-#include <ShaderTranspiler/ShaderTranspiler.hpp>
+#include "ShaderWriter.hpp"
 
 using namespace std;
 using namespace shadert;
@@ -72,17 +72,24 @@ int main(int argc, char** argv) {
 	
 	// get the target API
 	TargetAPI api;
+	const char* entryPoint = nullptr;
 	try{
 		auto& apiString = args["api"].as<string>();
-		static const unordered_map<string, TargetAPI> apiMap{
-			{"OpenGLES",TargetAPI::OpenGL_ES},
-			{"OpenGL",TargetAPI::OpenGL},
-			{"Vulkan", TargetAPI::Vulkan},
-			{"DirectX", TargetAPI::DirectX},
-			{"Metal", TargetAPI::Metal}
+		struct apiData {
+			TargetAPI e_api;
+			const char* entryPoint;
+		};
+		static const unordered_map<string, apiData> apiMap{
+			{"OpenGLES",{TargetAPI::OpenGL_ES,"main"}},
+			{"OpenGL",{TargetAPI::OpenGL,"main"}},
+			{"Vulkan", {TargetAPI::Vulkan,""}},
+			{"DirectX", {TargetAPI::DirectX,"main"}},
+			{"Metal", {TargetAPI::Metal,"xlatMtlMain"}}
 		};
 		try{
-			api = apiMap.at(apiString);
+			const auto& data = apiMap.at(apiString);
+			api = data.e_api;
+			entryPoint = data.entryPoint;
 		}
 		catch(exception& e){
 			cerr << fmt::format("nshaderc error: \"{}\" is not a valid target API\nExpected one of:\n", apiString);
@@ -104,14 +111,17 @@ int main(int argc, char** argv) {
 		FATAL("backend compatibility version not set")
 	}
 	
-	FileCompileTask task{std::move(inputFile),ShaderStage::Vertex};
+	FileCompileTask task{std::move(inputFile),inputStage };
 	
 	ShaderTranspiler transpiler;
 	
 	try{
-		auto result = transpiler.CompileTo(task, api, {.version = version, .mobile = args["mobile"].as<bool>()});
-		ofstream out(outputFile);
-		out << result.data.result;
+		auto result = transpiler.CompileTo(task, api, {.version = version, .mobile = args["mobile"].as<bool>(),  .entryPoint = entryPoint});
+
+		// make bgfx binary
+		auto binary = makeBGFXShaderBinary(result, inputStage);
+		ofstream out(outputFile, ios::out | ios::binary);
+		out.write(binary.data(), binary.size() * sizeof(decltype(binary)::value_type));
 		if (!out.good()){
 			FATAL(fmt::format("Error writing to {}", outputFile.string()));
 		}
