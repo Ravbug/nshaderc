@@ -1,6 +1,7 @@
 #include "ShaderWriter.hpp"
 #include <fmt/format.h>
 #include <string>
+#include "MurmurHash.hpp"
 
 void fatal(const std::string& errstr) {
 	throw std::runtime_error(errstr);
@@ -20,6 +21,29 @@ void insertItem(std::vector<char>& vec, const T& value) {
 		vec.push_back(bytebegin[i]);
 	}
 }
+
+
+static const char* s_attribName[] =
+{
+	"a_position",
+	"a_normal",
+	"a_tangent",
+	"a_bitangent",
+	"a_color0",
+	"a_color1",
+	"a_color2",
+	"a_color3",
+	"a_indices",
+	"a_weight",
+	"a_texcoord0",
+	"a_texcoord1",
+	"a_texcoord2",
+	"a_texcoord3",
+	"a_texcoord4",
+	"a_texcoord5",
+	"a_texcoord6",
+	"a_texcoord7",
+};
 
 /**
 The BGFX shader format:
@@ -143,6 +167,17 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 	output.push_back('\0');	// null terminator
 
 	// write LiveAttribute data
+	insertItem(output, uint8_t(result.data.attributeData.size()));	// number of attributes
+	for (const auto& attribute : result.data.attributeData) {
+		auto index = std::distance(std::begin(s_attribName), std::find(std::begin(s_attribName), std::end(s_attribName), attribute.name.c_str()));
+		if (index >= sizeof(s_attribName) / sizeof(s_attribName[0])) {
+			insertItem(output, std::numeric_limits<uint16_t>::max());
+		}
+		else {
+			insertItem(output, uint16_t(index));	// the index of the attribute
+		}
+	}
+	insertItem(output, uint16_t(result.data.uniformData.size()));		// number of uniforms (again for some reason)
 
 	return output;
 }
