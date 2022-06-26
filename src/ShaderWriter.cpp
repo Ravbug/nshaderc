@@ -22,7 +22,6 @@ void insertItem(std::vector<char>& vec, const T& value) {
 	}
 }
 
-
 static const char* s_attribName[] =
 {
 	"a_position",
@@ -73,7 +72,7 @@ for each TProgram->getAttributeName:
 {
 	2b - bgfx::attribToId(TProgram attribute) if attribute is not equal to bgfx::Attrib::Count, else UINT16_MAX
 }
-2b - size of the uniform array
+2b - size of the uniform array (again?)
 */
 
 std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, shadert::ShaderStage stage) {
@@ -102,9 +101,17 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 	}
 
 	// then write the input and output hashes
-	// TODO: calculate hashes
-	insertItem(output, uint32_t(0));	// input hash
-	insertItem(output, uint32_t(0));	// output hash
+	auto calcHashFor = [](const auto& container) -> uint32_t {
+		HashMurmur2A murmur;
+		murmur.begin();
+		for (const auto& item : container) {
+			murmur.add(item.name.c_str(), uint32_t(item.name.length()));
+		}
+
+		return murmur.end();
+	};
+	insertItem(output, calcHashFor(result.data.reflectData.stage_inputs));	// input hash
+	insertItem(output, calcHashFor(result.data.reflectData.stage_outputs));	// output hash
 
 	// next write the uniform data
 	insertItem(output, uint16_t(result.data.uniformData.size()));		// number of uniforms
@@ -112,7 +119,6 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 	for (const auto& uniform : result.data.uniformData) {
 		insertItem(output, uint8_t(uniform.name.length()));				 // uniform name length
 		insertBytes(output, uniform.name.c_str(),uniform.name.length()); // uniform name
-		insertItem(output, uint8_t());									 // TODO: fragment bit
 
 		uint8_t bgfx_type = 0;
 		uint16_t regCount = uniform.arraySize;
