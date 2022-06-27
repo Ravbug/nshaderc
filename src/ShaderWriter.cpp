@@ -107,11 +107,13 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 		for (const auto& item : container) {
 			murmur.add(item.name.c_str(), uint32_t(item.name.length()));
 		}
-
-		return murmur.end();
+		auto hash = murmur.end();
+		return hash;
 	};
-	insertItem(output, calcHashFor(result.data.reflectData.stage_inputs));	// input hash
-	insertItem(output, calcHashFor(result.data.reflectData.stage_outputs));	// output hash
+	uint32_t inputHash = (stage == decltype(stage)::Fragment)? calcHashFor(result.data.reflectData.stage_inputs) : uint32_t(0);
+	uint32_t outputHash = (stage == decltype(stage)::Fragment) ? uint32_t(0) : calcHashFor(result.data.reflectData.stage_outputs);
+	insertItem(output, inputHash);	// input hash
+	insertItem(output, outputHash);	// output hash
 
 	// next write the uniform data
 	insertItem(output, uint16_t(result.data.uniformData.size()));		// number of uniforms
@@ -168,7 +170,7 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 	}
 
 	// then write the shader data itself
-	insertItem(output, uint16_t(result.data.shaderData.size()));	// shader size
+	insertItem(output, uint32_t(result.data.shaderData.size()));	// shader size
 	insertBytes(output, result.data.shaderData.data(), result.data.shaderData.size() * sizeof(decltype(result.data.shaderData)::value_type));
 	output.push_back('\0');	// null terminator
 
