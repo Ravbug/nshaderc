@@ -73,23 +73,34 @@ int main(int argc, char** argv) {
 	// get the target API
 	TargetAPI api;
 	const char* entryPoint = nullptr;
+	shadert::Options opt;
 	try{
 		auto& apiString = args["api"].as<string>();
 		struct apiData {
 			TargetAPI e_api;
-			const char* entryPoint;
+			shadert::Options options;
 		};
 		static const unordered_map<string, apiData> apiMap{
-			{"OpenGLES",{TargetAPI::OpenGL_ES,"main"}},
-			{"OpenGL",{TargetAPI::OpenGL,"main"}},
-			{"Vulkan", {TargetAPI::Vulkan,""}},
-			{"DirectX", {TargetAPI::DirectX,"main"}},
-			{"Metal", {TargetAPI::Metal,"xlatMtlMain"}}
+			{"OpenGLES",{TargetAPI::OpenGL_ES,shadert::Options{
+				.entryPoint = "main"}
+			}},
+			{"OpenGL",{TargetAPI::OpenGL,shadert::Options{
+				.entryPoint = "main"}
+			}},
+			{"Vulkan", {TargetAPI::Vulkan,shadert::Options{
+				.entryPoint = ""}
+			}},
+			{"DirectX", {TargetAPI::DirectX,shadert::Options
+				{.entryPoint = "main"}}},
+			{"Metal", {TargetAPI::Metal, shadert::Options{
+				.entryPoint = "xlatMtlMain",
+				.uniformBufferSettings{"_mtl_u",true}}
+			}}
 		};
 		try{
 			const auto& data = apiMap.at(apiString);
 			api = data.e_api;
-			entryPoint = data.entryPoint;
+			opt = std::move(data.options);
 		}
 		catch(exception& e){
 			cerr << fmt::format("nshaderc error: \"{}\" is not a valid target API\nExpected one of:\n", apiString);
@@ -116,7 +127,9 @@ int main(int argc, char** argv) {
 	ShaderTranspiler transpiler;
 	
 	try{
-		auto result = transpiler.CompileTo(task, api, {.version = version, .mobile = args["mobile"].as<bool>(),  .entryPoint = entryPoint});
+		opt.version = version;
+		opt.mobile = args["mobile"].as<bool>();
+		auto result = transpiler.CompileTo(task, api,opt);
 
 		// make bgfx binary
 		auto binary = makeBGFXShaderBinary(result, inputStage);
