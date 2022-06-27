@@ -22,7 +22,7 @@ void insertItem(std::vector<char>& vec, const T& value) {
 	}
 }
 
-static const char* s_attribName[] =
+static const std::string_view s_attribName[] =
 {
 	"a_position",
 	"a_normal",
@@ -43,6 +43,28 @@ static const char* s_attribName[] =
 	"a_texcoord6",
 	"a_texcoord7",
 };
+
+static uint16_t s_attribToId[] = {
+	0x0001,
+	0x0002,
+	0x0003,
+	0x0004,
+	0x0005,
+	0x0006,
+	0x0018,
+	0x0019,
+	0x000e,
+	0x000f,
+	0x0010,
+	0x0011,
+	0x0012,
+	0x0013,
+	0x0014,
+	0x0015,
+	0x0016,
+	0x0017
+};
+static_assert(sizeof(s_attribName)/sizeof(s_attribName[0]) == sizeof(s_attribToId)/sizeof(s_attribToId[0]), "length of s_attribName ≠ length of s_attribToId");
 
 /**
 The BGFX shader format:
@@ -118,6 +140,7 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 	// next write the uniform data
 	insertItem(output, uint16_t(result.data.uniformData.size()));		// number of uniforms
 	// switch on uniform.glDefineType to convert to bgfx enum for writing, and error on unkown types instead of writing UniformType::End
+	uint16_t uniformDataSize = 0;
 	for (const auto& uniform : result.data.uniformData) {
 		insertItem(output, uint8_t(uniform.name.length()));				 // uniform name length
 		insertBytes(output, uniform.name.c_str(),uniform.name.length()); // uniform name
@@ -167,6 +190,7 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 		insertItem(output, uint8_t(uniform.texComponent));				// texComponent
 		insertItem(output, uint8_t(uniform.texDimension));				// texDimension
 		insertItem(output, uint16_t(uniform.texFormat));				// texFormat
+		uniformDataSize += regCount * 16;
 	}
 
 	// then write the shader data itself
@@ -182,10 +206,11 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 			insertItem(output, std::numeric_limits<uint16_t>::max());
 		}
 		else {
-			insertItem(output, uint16_t(index));	// the index of the attribute
+			auto convertedID = s_attribToId[index];
+			insertItem(output, uint16_t(convertedID));	// the index of the attribute
 		}
 	}
-	insertItem(output, uint16_t(result.data.uniformData.size()));		// number of uniforms (again for some reason)
+	insertItem(output, uniformDataSize);		// number of uniforms (again for some reason)
 
 	return output;
 }
