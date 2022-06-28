@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(nshaderc)
 
+
 if(MSVC)
 	add_definitions(/MP)	# force parallel compile
 endif()
@@ -24,3 +25,9 @@ add_subdirectory("deps/fmt" EXCLUDE_FROM_ALL)
 target_link_libraries(${PROJECT_NAME} PRIVATE ShaderTranspiler cxxopts fmt)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT "${PROJECT_NAME}")
 set_target_properties("${PROJECT_NAME}" PROPERTIES XCODE_GENERATE_SCHEME ON)
+
+option(NSHADERC_EXAMPLES ON "Build Example Targets")
+
+if (NSHADERC_EXAMPLES)
+	add_subdirectory(examples)
+endif()
