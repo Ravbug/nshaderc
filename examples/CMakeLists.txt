@@ -10,3 +10,4 @@ endfunction()
 
 addexample("01-cubes" "cubes.vs" "cubes.fs" "vs_cubes" "fs_cubes")
 addexample("02-metaballs" "metaballs.vs" "metaballs.fs" "vs_metaballs" "fs_metaballs")
+addexample("03-raymarch" "raymarch.vs" "raymarch.fs" "vs_raymarching" "fs_raymarching")
