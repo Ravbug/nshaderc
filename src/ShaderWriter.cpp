@@ -194,8 +194,9 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 	}
 
 	// then write the shader data itself
-	insertItem(output, uint32_t(result.data.sourceData.size()));	// shader size
-	insertBytes(output, result.data.sourceData.data(), result.data.sourceData.size() * sizeof(decltype(result.data.sourceData)::value_type));
+	const std::string& shaderData = result.data.binaryData.size() > 0 ? result.data.binaryData : result.data.sourceData;
+	insertItem(output, uint32_t(shaderData.size()));	// shader size
+	insertBytes(output, shaderData.data(), shaderData.size());
 	output.push_back('\0');	// null terminator
 
 	// write LiveAttribute data

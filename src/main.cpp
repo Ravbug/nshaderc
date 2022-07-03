@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
 			{"Vulkan", {TargetAPI::Vulkan,shadert::Options{
 				.entryPoint = ""}
 			}},
-			{"DirectX", {TargetAPI::HLSL,shadert::Options
+			{"DirectX", {TargetAPI::DXIL,shadert::Options
 				{.entryPoint = "main"}}},
 			{"Metal", {TargetAPI::Metal, shadert::Options{
 				.entryPoint = "xlatMtlMain",
