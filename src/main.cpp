@@ -19,15 +19,20 @@ int main(int argc, char** argv) {
 		("f,file", "Input file path", cxxopts::value<filesystem::path>())
 		("o,output", "Ouptut file path", cxxopts::value<filesystem::path>())
 		("a,api","Target API", cxxopts::value<string>())
-		("c,compatibility","Target API minimum compatibility", cxxopts::value<uint32_t>())
+		("c,compatibility","Target API minimum compatibility version", cxxopts::value<uint32_t>())
 		("m,mobile", "Mobile backend (default false)", cxxopts::value<bool>()->default_value("false"))
 		("s,stage","Shader stage", cxxopts::value<std::string>())
 		("i,include","Include paths", cxxopts::value<std::vector<filesystem::path>>())
+		("h,help", "Show help menu")
 		//("v,verbose", "Verbose logs")
 		;
 	auto args = options.parse(argc, argv);
 	if (args["version"].as<bool>()) {
 		printf("%s", fmt::format("nshaderc version 0.0.1\n").c_str());
+	}
+	if (args["help"].as<bool>()){
+		cout << options.help() << endl;
+		return 0;
 	}
 
 	// check for input and output file
