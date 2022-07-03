@@ -99,7 +99,7 @@ for each TProgram->getAttributeName:
 
 std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, shadert::ShaderStage stage) {
 	std::vector<char> output;
-	output.reserve(result.data.shaderData.size() + 100);
+	output.reserve(result.data.sourceData.size() + 100);
 
 	bool isFragmentShader = stage == decltype(stage)::Fragment;
 
@@ -194,8 +194,8 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 	}
 
 	// then write the shader data itself
-	insertItem(output, uint32_t(result.data.shaderData.size()));	// shader size
-	insertBytes(output, result.data.shaderData.data(), result.data.shaderData.size() * sizeof(decltype(result.data.shaderData)::value_type));
+	insertItem(output, uint32_t(result.data.sourceData.size()));	// shader size
+	insertBytes(output, result.data.sourceData.data(), result.data.sourceData.size() * sizeof(decltype(result.data.sourceData)::value_type));
 	output.push_back('\0');	// null terminator
 
 	// write LiveAttribute data
