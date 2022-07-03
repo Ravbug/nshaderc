@@ -90,8 +90,10 @@ int main(int argc, char** argv) {
 			{"Vulkan", {TargetAPI::Vulkan,shadert::Options{
 				.entryPoint = ""}
 			}},
+#ifdef ST_DXIL_ENABLED
 			{"DirectX", {TargetAPI::DXIL,shadert::Options
 				{.entryPoint = "main"}}},
+#endif
 			{"Metal", {TargetAPI::Metal, shadert::Options{
 				.entryPoint = "xlatMtlMain",
 				.uniformBufferSettings{"_mtl_u",true}}
