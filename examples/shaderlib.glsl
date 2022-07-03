@@ -2,6 +2,7 @@ layout(binding=0) uniform _Global{
 	mat4 u_model[32];
 	mat4 u_modelView;
 	mat4 u_modelViewProj;
+	mat4 u_viewProj;
 	uniform vec4 u_time;
 };
 
