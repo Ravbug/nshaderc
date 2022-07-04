@@ -166,6 +166,7 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 		switch (uniform.glDefineType)
 		{
 		case 0x1404: // GL_INT:
+		case 0x8B5E:
 			bgfx_type = UniformType::Sampler;
 			break;
 		case 0x8B52: // GL_FLOAT_VEC4:
@@ -180,7 +181,7 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 			regCount *= 4;
 			break;
 		default:
-			fatal(fmt::format("Invalid Uniform type ({}) for Uniform \"{}\" ",uniform.glDefineType,uniform.name));
+			fatal(fmt::format("Invalid Uniform type (0x{:x}) for Uniform \"{}\" ",uniform.glDefineType,uniform.name));
 		}
 		uint32_t fragmentBit = isFragmentShader ? kUniformFragmentBit : 0;
 		insertItem(output, uint8_t(bgfx_type | fragmentBit));			// fragment bit + type
