@@ -22,6 +22,7 @@ function(addexample_impl)
 	foreach(item IN ZIP_LISTS ARGS_VERTSHADERS ARGS_OUTVERTNAMES)
 		add_custom_command(
 			OUTPUT "example-${ARGS_DIRNAME}-${ARGS_API}_out" APPEND
+			DEPENDS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}"
 			COMMAND "${NSHADERC}" -f "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" -o "${OUTPUT_DIR}${item_1}.bin" --stage vertex --api ${ARGS_API} -c ${ARGS_VERSION}
 		)
 	endforeach()
@@ -29,6 +30,7 @@ function(addexample_impl)
 	foreach(item IN ZIP_LISTS ARGS_FRAGSHADERS ARGS_OUTFRAGNAMES)
 		add_custom_command(
 			OUTPUT "example-${ARGS_DIRNAME}-${ARGS_API}_out" APPEND
+			DEPENDS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}"
 			COMMAND "${NSHADERC}" -f "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" -o "${OUTPUT_DIR}${item_1}.bin" --stage fragment --api ${ARGS_API} -c ${ARGS_VERSION}
 		)
 	endforeach()
@@ -137,4 +139,12 @@ addexample(
 	OUTVERTNAMES "vs_bump_instanced" "vs_bump"
 	FRAGSHADERS "bump.fs"
 	OUTFRAGNAMES "fs_bump"
+)
+
+addexample(
+	DIRNAME "07-callback"
+	VERTSHADERS "callback.vs"
+	OUTVERTNAMES "vs_callback"
+	FRAGSHADERS "callback.fs"
+	OUTFRAGNAMES "fs_callback"
 )

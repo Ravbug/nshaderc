@@ -136,12 +136,27 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 	uint32_t outputHash = (stage == decltype(stage)::Fragment) ? uint32_t(0) : calcHashFor(result.data.reflectData.stage_outputs);
 	insertItem(output, inputHash);	// input hash
 	insertItem(output, outputHash);	// output hash
+	
+	auto uniformData = std::move(result.data.uniformData);
+	
+	// need to add Separate Images to the Uniform data
+	for(const auto& item : result.data.reflectData.separate_images){
+		decltype(uniformData)::value_type uniform;
+		uniform.name = item.name;
+		uniform.glDefineType = 0x1404;	// the ID for samplers
+		
+		// on metal these should be set to 0
+		uniform.arraySize = 0;
+		uniform.bufferOffset = 0;
+		
+		uniformData.push_back(uniform);
+	}
 
 	// next write the uniform data
-	insertItem(output, uint16_t(result.data.uniformData.size()));		// number of uniforms
+	insertItem(output, uint16_t(uniformData.size()));		// number of uniforms
 	// switch on uniform.glDefineType to convert to bgfx enum for writing, and error on unkown types instead of writing UniformType::End
 	uint16_t uniformDataSize = 0;
-	for (const auto& uniform : result.data.uniformData) {
+	for (const auto& uniform : uniformData) {
 		insertItem(output, uint8_t(uniform.name.length()));				 // uniform name length
 		insertBytes(output, uniform.name.c_str(),uniform.name.length()); // uniform name
 

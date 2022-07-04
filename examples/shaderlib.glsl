@@ -7,7 +7,9 @@ layout(binding=0) uniform _Global{
 	uniform vec4 u_time;
 };
 
+vec2 vec2_splat(float _x) { return vec2(_x, _x); }
 vec3 vec3_splat(float _x) { return vec3(_x, _x, _x); }
+vec4 vec4_splat(float _x) { return vec4(_x, _x, _x, _x); }
 
 vec3 toLinear(vec3 _rgb)
 {
