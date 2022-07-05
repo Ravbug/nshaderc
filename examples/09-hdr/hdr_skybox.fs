@@ -6,9 +6,9 @@
 layout(location = 0) in vec2 v_texcoord0;
 layout(location = 0) out vec4 outcolor;
 
-layout(binding = 1) uniform sampler3D s_texCube;
+layout(binding = 0) uniform samplerCube s_texCube;
 
-layout(binding=2) uniform ShaderLocal{
+layout(binding = 1) uniform ShaderLocal{
 	mat4 u_mtx;
 };
 

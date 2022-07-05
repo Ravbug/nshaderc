@@ -8,7 +8,7 @@ layout(location = 1) in vec3 v_view;
 layout(location = 2) in vec3 v_normal;
 layout(location = 0) out vec4 outcolor;
 
-layout(binding = 1) uniform sampler3D s_texCube;
+layout(binding = 0) uniform samplerCube s_texCube;
 
 vec2 blinn(vec3 _lightDir, vec3 _normal, vec3 _viewDir)
 {

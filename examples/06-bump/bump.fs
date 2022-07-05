@@ -2,7 +2,7 @@
 #extension GL_GOOGLE_include_directive : enable
 #include "../shaderlib.glsl"
 
-layout(binding = 2) uniform Local{
+layout(binding = 0) uniform Local{
 	vec4 u_lightPosRadius[4];
 	vec4 u_lightRgbInnerR[4];
 };

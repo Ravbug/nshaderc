@@ -6,8 +6,8 @@
 layout(location = 0) in vec2 v_texcoord0;
 layout(location = 0) out vec4 outcolor;
 
-layout(binding = 1) uniform sampler2D s_texColor;
-layout(binding = 2) uniform sampler2D s_texLum;
+layout(binding = 0) uniform sampler2D s_texColor;
+layout(binding = 1) uniform sampler2D s_texLum;
 
 void main()
 {

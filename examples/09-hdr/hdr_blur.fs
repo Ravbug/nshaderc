@@ -9,7 +9,7 @@ layout(location = 3) in vec4 v_texcoord3;
 layout(location = 4) in vec4 v_texcoord4;
 layout(location = 0) out vec4 outcolor;
 
-layout(binding = 1) uniform sampler2D s_texColor;
+layout(binding = 0) uniform sampler2D s_texColor;
 
 void main()
 {

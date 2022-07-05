@@ -11,9 +11,9 @@ layout(location = 3) in vec4 v_texcoord3;
 layout(location = 4) in vec4 v_texcoord4;
 layout(location = 0) out vec4 outcolor;
 
-layout(binding = 10) uniform sampler2D s_texColor;
-layout(binding = 11) uniform sampler2D s_texLum;
-layout(binding = 12) uniform sampler2D s_texBlur;
+layout(binding = 0) uniform sampler2D s_texColor;
+layout(binding = 1) uniform sampler2D s_texLum;
+layout(binding = 2) uniform sampler2D s_texBlur;
 
 void main()
 {
