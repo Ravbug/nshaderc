@@ -180,23 +180,26 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 
 		switch (uniform.glDefineType)
 		{
-		case 0x1404: // GL_INT:
-		case 0x8B5E:
-			bgfx_type = UniformType::Sampler;
-			break;
-		case 0x8B52: // GL_FLOAT_VEC4:
-			bgfx_type = UniformType::Vec4;
-			break;
-		case 0x8B5B: // GL_FLOAT_MAT3:
-			bgfx_type = UniformType::Mat3;
-			regCount *= 3;
-			break;
-		case 0x8B5C: // GL_FLOAT_MAT4:
-			bgfx_type = UniformType::Mat4;
-			regCount *= 4;
-			break;
-		default:
-			fatal(fmt::format("Invalid Uniform type (0x{:x}) for Uniform \"{}\" ",uniform.glDefineType,uniform.name));
+			case 0x1404: // GL_INT:
+			case 0x8B5E:
+			case 0x8b60:
+			case 0x8b5f:
+			case 0x9053:
+				bgfx_type = UniformType::Sampler;
+				break;
+			case 0x8B52: // GL_FLOAT_VEC4:
+				bgfx_type = UniformType::Vec4;
+				break;
+			case 0x8B5B: // GL_FLOAT_MAT3:
+				bgfx_type = UniformType::Mat3;
+				regCount *= 3;
+				break;
+			case 0x8B5C: // GL_FLOAT_MAT4:
+				bgfx_type = UniformType::Mat4;
+				regCount *= 4;
+				break;
+			default:
+				fatal(fmt::format("Invalid Uniform type (0x{:x}) for Uniform \"{}\" ",uniform.glDefineType,uniform.name));
 		}
 		uint32_t fragmentBit = isFragmentShader ? kUniformFragmentBit : 0;
 		insertItem(output, uint8_t(bgfx_type | fragmentBit));			// fragment bit + type
