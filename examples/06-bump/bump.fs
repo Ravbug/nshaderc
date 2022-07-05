@@ -2,12 +2,12 @@
 #extension GL_GOOGLE_include_directive : enable
 #include "../shaderlib.glsl"
 
-layout(binding = 0) uniform Local{
+layout(binding = 2) uniform Local{
 	vec4 u_lightPosRadius[4];
 	vec4 u_lightRgbInnerR[4];
 };
-layout(binding = 1) uniform sampler2D s_texColor;
-layout(binding = 2) uniform sampler2D s_texNormal;
+layout(binding = 0) uniform sampler2D s_texColor;
+layout(binding = 1) uniform sampler2D s_texNormal;
 
 layout(location = 0) in vec3 v_bitangent;
 layout(location = 1) in vec3 v_normal;
