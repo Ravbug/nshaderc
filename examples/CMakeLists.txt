@@ -181,3 +181,19 @@ addexample(
 	FRAGSHADERS hdr_blur.fs hdr_bright.fs hdr_lum.fs hdr_lumavg.fs hdr_mesh.fs hdr_skybox.fs hdr_tonemap.fs
 	OUTFRAGNAMES fs_hdr_blur fs_hdr_bright fs_hdr_lum fs_hdr_lumavg fs_hdr_mesh fs_hdr_skybox fs_hdr_tonemap
 )
+
+addexample(
+	DIRNAME "12-lod"
+	VERTSHADERS "tree.vs"
+	OUTVERTNAMES "vs_tree"
+	FRAGSHADERS "tree.fs"
+	OUTFRAGNAMES "fs_tree"
+)
+
+addexample(
+	DIRNAME "13-stencil"
+	VERTSHADERS stencil_color_lighting.vs stencil_color_texture.vs stencil_color.vs stencil_texture_lighting.vs stencil_texture.vs
+	OUTVERTNAMES vs_stencil_color_lighting vs_stencil_color_texture vs_stencil_color vs_stencil_texture_lighting vs_stencil_texture
+	FRAGSHADERS stencil_texture.fs stencil_color_black.fs stencil_color_lighting.fs stencil_color_texture.fs stencil_texture_lighting.fs
+	OUTFRAGNAMES fs_stencil_texture fs_stencil_color_black fs_stencil_color_lighting fs_stencil_color_texture fs_stencil_texture_lighting
+)

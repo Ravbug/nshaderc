@@ -5,7 +5,8 @@ layout(binding=0) uniform _Global{
 	mat4 u_viewProj;
 	mat4 u_view;
 	vec4 u_viewTexel;
-	uniform vec4 u_time;
+	vec4 u_viewRect;
+	vec4 u_time;
 };
 
 #define M_PI 3.1415926538
