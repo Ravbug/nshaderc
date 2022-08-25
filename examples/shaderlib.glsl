@@ -1,4 +1,4 @@
-layout(binding=0) uniform _Global{
+uniform _Global{
 	mat4 u_model[32];
 	mat4 u_modelView;
 	mat4 u_modelViewProj;

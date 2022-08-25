@@ -21,7 +21,7 @@ function(addexample_impl)
 	foreach(item IN ZIP_LISTS ARGS_VERTSHADERS ARGS_OUTVERTNAMES)
 		add_custom_command(
 			OUTPUT "${OUTPUT_DIR}${item_1}.bin"
-			DEPENDS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" nshaderc
+			DEPENDS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" "${CMAKE_CURRENT_LIST_DIR}/shaderlib.glsl" nshaderc
 			COMMENT Compiling "${item_0}"
 			COMMAND "${NSHADERC}" -f "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" -o "${OUTPUT_DIR}${item_1}.bin" --stage vertex --api ${ARGS_API} -c ${ARGS_VERSION}
 		)
@@ -30,7 +30,7 @@ function(addexample_impl)
 	foreach(item IN ZIP_LISTS ARGS_FRAGSHADERS ARGS_OUTFRAGNAMES)
 		add_custom_command(
 			OUTPUT "${OUTPUT_DIR}${item_1}.bin"
-			DEPENDS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" nshaderc
+			DEPENDS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" "${CMAKE_CURRENT_LIST_DIR}/shaderlib.glsl" nshaderc
 			COMMENT Compiling "${item_0}"
 			COMMAND "${NSHADERC}" -f "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" -o "${OUTPUT_DIR}${item_1}.bin" --stage fragment --api ${ARGS_API} -c ${ARGS_VERSION}
 		)
@@ -39,7 +39,7 @@ function(addexample_impl)
 	foreach(item IN ZIP_LISTS ARGS_COMPSHADERS ARGS_OUTCOMPNAMES)
 		add_custom_command(
 			OUTPUT "${OUTPUT_DIR}${item_1}.bin"
-			DEPENDS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" nshaderc
+			DEPENDS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" "${CMAKE_CURRENT_LIST_DIR}/shaderlib.glsl" nshaderc
 			COMMENT Compiling "${item_0}"
 			COMMAND "${NSHADERC}" -f "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" -o "${OUTPUT_DIR}${item_1}.bin" --stage compute --api ${ARGS_API} -c ${ARGS_VERSION}
 		)

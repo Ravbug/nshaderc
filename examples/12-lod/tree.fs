@@ -2,7 +2,7 @@
 #extension GL_GOOGLE_include_directive : enable
 #include "../shaderlib.glsl"
 
-layout(binding = 0) uniform Local{
+uniform Local{
 	vec4 u_stipple;
 };
 
