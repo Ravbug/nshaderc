@@ -176,7 +176,7 @@ addexample(
 
 addexample(
 	DIRNAME "09-hdr" 
-	VERTSHADERS hdr_blur.vs hdr_bright.vs hdr_lum.vs hdr_lumavg.vs hdr_mesh.vs hdr_skybox.vs hdr_tonemap.vs 
+	VERTSHADERS hdr_blur.vs hdr_bright.vs hdr_lum.vs hdr_lumavg.vs hdr_mesh.vs hdr_skybox.vs hdr_tonemap.vs
 	OUTVERTNAMES vs_hdr_blur vs_hdr_bright vs_hdr_lum vs_hdr_lumavg vs_hdr_mesh vs_hdr_skybox vs_hdr_tonemap
 	FRAGSHADERS hdr_blur.fs hdr_bright.fs hdr_lum.fs hdr_lumavg.fs hdr_mesh.fs hdr_skybox.fs hdr_tonemap.fs
 	OUTFRAGNAMES fs_hdr_blur fs_hdr_bright fs_hdr_lum fs_hdr_lumavg fs_hdr_mesh fs_hdr_skybox fs_hdr_tonemap
@@ -196,4 +196,13 @@ addexample(
 	OUTVERTNAMES vs_stencil_color_lighting vs_stencil_color_texture vs_stencil_color vs_stencil_texture_lighting vs_stencil_texture
 	FRAGSHADERS stencil_texture.fs stencil_color_black.fs stencil_color_lighting.fs stencil_color_texture.fs stencil_texture_lighting.fs
 	OUTFRAGNAMES fs_stencil_texture fs_stencil_color_black fs_stencil_color_lighting fs_stencil_color_texture fs_stencil_texture_lighting
+)
+
+
+addexample(
+    DIRNAME "14-shadowvolumes"
+    VERTSHADERS shadowvolume_color_lighting.vs shadowvolume_color_texture.vs shadowvolume_svback.vs shadowvolume_svfront.vs shadowvolume_svside.vs shadowvolume_texture.vs shadowvolume_texture_lighting.vs
+    OUTVERTNAMES vs_shadowvolume_color_lighting vs_shadowvolume_color_texture vs_shadowvolume_svback vs_shadowvolume_svfront vs_shadowvolume_svside vs_shadowvolume_texture vs_shadowvolume_texture_lighting
+    FRAGSHADERS shadowvolume_color_lighting.fs shadowvolume_color_texture.fs shadowvolume_svbackblank.fs shadowvolume_svbackcolor.fs shadowvolume_svbacktex1.fs shadowvolume_svbacktex2.fs shadowvolume_svfrontblank.fs shadowvolume_svfrontcolor.fs shadowvolume_svfronttex1.fs shadowvolume_svfronttex2.fs shadowvolume_svside.fs shadowvolume_svsideblank.fs shadowvolume_svsidecolor.fs shadowvolume_svsidetex.fs shadowvolume_texture.fs shadowvolume_texture_lighting.fs
+    OUTFRAGNAMES fs_shadowvolume_color_lighting fs_shadowvolume_color_texture fs_shadowvolume_svbackblank fs_shadowvolume_svbackcolor fs_shadowvolume_svbacktex1 fs_shadowvolume_svbacktex2 fs_shadowvolume_svfrontblank fs_shadowvolume_svfrontcolor fs_shadowvolume_svfronttex1 fs_shadowvolume_svfronttex2 fs_shadowvolume_svside fs_shadowvolume_svsideblank fs_shadowvolume_svsidecolor fs_shadowvolume_svsidetex fs_shadowvolume_texture fs_shadowvolume_texture_lighting
 )

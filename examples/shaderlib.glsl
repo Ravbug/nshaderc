@@ -14,6 +14,13 @@ vec2 vec2_splat(float _x) { return vec2(_x, _x); }
 vec3 vec3_splat(float _x) { return vec3(_x, _x, _x); }
 vec4 vec4_splat(float _x) { return vec4(_x, _x, _x, _x); }
 
+// for compatibility with old-style bgfx shaders
+// avoid using this, instead use the * operator directly
+#define mul(_a, _b) ( (_a) * (_b) )
+#define texture2D texture
+#define texture3D texture
+#define SAMPLER2D(name,b) layout(binding=b) uniform sampler2D name
+#define SAMPLER3D(name,b) uniform(binding=b) sampler3D name
 
 float decodeRE8(vec4 _re8)
 {
