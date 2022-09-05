@@ -1,4 +1,4 @@
-#version 460
+
 #extension GL_GOOGLE_include_directive : enable
 #include "common.glsl"
 #include "../shaderlib.glsl"
@@ -8,9 +8,7 @@ layout(location = 0) out vec4 outcolor;
 
 layout(binding = 0) uniform samplerCube s_texCube;
 
-layout(binding = 1) uniform ShaderLocal{
-	mat4 u_mtx;
-};
+uniform mat4 u_mtx;
 
 void main()
 {

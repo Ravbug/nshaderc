@@ -1,10 +1,8 @@
-#version 460
+
 #extension GL_GOOGLE_include_directive : enable
 #include "../shaderlib.glsl"
 
-uniform Local{
-	vec4 u_stipple;
-};
+uniform vec4 u_stipple;
 
 layout(location = 0) in vec3 v_pos;
 layout(location = 1) in vec3 v_view;

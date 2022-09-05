@@ -3,10 +3,8 @@
  * License: https://github.com/bkaradzic/bgfx/blob/master/LICENSE
  */
 
-layout(binding=0) uniform Local{
-	vec4 u_offset[16];
-	vec4 u_tonemap;
-};
+uniform vec4 u_offset[16];
+uniform vec4 u_tonemap;
 
 float reinhard(float _x)
 {

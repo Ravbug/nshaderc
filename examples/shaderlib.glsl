@@ -1,13 +1,11 @@
-uniform _Global{
-	mat4 u_model[32];
-	mat4 u_modelView;
-	mat4 u_modelViewProj;
-	mat4 u_viewProj;
-	mat4 u_view;
-	vec4 u_viewTexel;
-	vec4 u_viewRect;
-	vec4 u_time;
-};
+uniform mat4 u_model[32];
+uniform mat4 u_modelView;
+uniform mat4 u_modelViewProj;
+uniform mat4 u_viewProj;
+uniform	mat4 u_view;
+uniform	vec4 u_viewTexel;
+uniform	vec4 u_viewRect;
+uniform	vec4 u_time;
 
 #define M_PI 3.1415926538
 #define saturate(_x) clamp(_x, 0.0, 1.0)

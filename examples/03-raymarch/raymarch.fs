@@ -1,9 +1,7 @@
-#version 460
+
 #extension GL_GOOGLE_include_directive : enable
-layout(binding=0) uniform _Global{
-	mat4 u_mtx;
-	vec4 u_lightDirTime;
-};
+uniform	mat4 u_mtx;
+uniform vec4 u_lightDirTime;
 
 #define u_lightDir u_lightDirTime.xyz
 #define u_time     u_lightDirTime.w

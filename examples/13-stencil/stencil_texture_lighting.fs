@@ -1,18 +1,15 @@
-#version 460
 #extension GL_GOOGLE_include_directive : enable
 #include "../shaderlib.glsl"
 
 #define MAX_NUM_LIGHTS 5
 
-layout(binding = 0) uniform Local {
-	vec4 u_params;
-	vec4 u_ambient;
-	vec4 u_diffuse;
-	vec4 u_color;
-	vec4 u_specular_shininess;
-	vec4 u_lightPosRadius[MAX_NUM_LIGHTS];
-	vec4 u_lightRgbInnerR[MAX_NUM_LIGHTS];
-};
+uniform vec4 u_params;
+uniform vec4 u_ambient;
+uniform vec4 u_diffuse;
+uniform vec4 u_color;
+uniform vec4 u_specular_shininess;
+uniform vec4 u_lightPosRadius[MAX_NUM_LIGHTS];
+uniform vec4 u_lightRgbInnerR[MAX_NUM_LIGHTS];
 
 layout(binding = 0) uniform sampler2D s_texColor;
 

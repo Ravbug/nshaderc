@@ -1,11 +1,10 @@
-#version 460
+
 #extension GL_GOOGLE_include_directive : enable
 #include "../shaderlib.glsl"
 
-layout(binding = 0) uniform Local{
-	vec4 u_lightPosRadius[4];
-	vec4 u_lightRgbInnerR[4];
-};
+uniform vec4 u_lightPosRadius[4];
+uniform	vec4 u_lightRgbInnerR[4];
+
 layout(binding = 0) uniform sampler2D s_texColor;
 layout(binding = 1) uniform sampler2D s_texNormal;
 

@@ -1,8 +1,7 @@
-#version 460
-layout(binding=0) uniform _Global{
-	mat4 u_model[32];
-	mat4 u_modelViewProj;
-};
+
+uniform mat4 u_model[32];
+uniform mat4 u_modelViewProj;
+
 layout(location = 0) in vec3 a_color0;
 layout(location = 1) in vec3 a_normal;
 layout(location = 2) in vec3 a_position;
