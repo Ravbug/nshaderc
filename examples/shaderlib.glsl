@@ -19,8 +19,9 @@ vec4 vec4_splat(float _x) { return vec4(_x, _x, _x, _x); }
 #define mul(_a, _b) ( (_a) * (_b) )
 #define texture2D texture
 #define texture3D texture
+#define SAMPLER2DSHADOW(name,b) layout(binding=b) uniform sampler2DShadow name
 #define SAMPLER2D(name,b) layout(binding=b) uniform sampler2D name
-#define SAMPLER3D(name,b) uniform(binding=b) sampler3D name
+#define SAMPLER3D(name,b) layout(binding=b) uniform sampler3D name
 
 float decodeRE8(vec4 _re8)
 {
@@ -243,4 +244,19 @@ vec3 toAcesFilmic(vec3 _rgb)
 vec4 toAcesFilmic(vec4 _rgba)
 {
 	return vec4(toAcesFilmic(_rgba.xyz), _rgba.w);
+}
+
+float unpackRgbaToFloat(vec4 _rgba)
+{
+    const vec4 shift = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+    return dot(_rgba, shift);
+}
+
+vec4 packFloatToRgba(float _value)
+{
+    const vec4 shift = vec4(256 * 256 * 256, 256 * 256, 256, 1.0);
+    const vec4 mask = vec4(0, 1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0);
+    vec4 comp = fract(_value * shift);
+    comp -= comp.xxyz * mask;
+    return comp;
 }

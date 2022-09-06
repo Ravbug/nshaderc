@@ -185,6 +185,7 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 			case 0x8b60:
 			case 0x8b5f:
 			case 0x9053:
+            case 0x8b62:
 				bgfx_type = UniformType::Sampler;
 				break;
 			case 0x8B52: // GL_FLOAT_VEC4:

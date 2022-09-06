@@ -206,3 +206,11 @@ addexample(
     FRAGSHADERS shadowvolume_color_lighting.fs shadowvolume_color_texture.fs shadowvolume_svbackblank.fs shadowvolume_svbackcolor.fs shadowvolume_svbacktex1.fs shadowvolume_svbacktex2.fs shadowvolume_svfrontblank.fs shadowvolume_svfrontcolor.fs shadowvolume_svfronttex1.fs shadowvolume_svfronttex2.fs shadowvolume_svside.fs shadowvolume_svsideblank.fs shadowvolume_svsidecolor.fs shadowvolume_svsidetex.fs shadowvolume_texture.fs shadowvolume_texture_lighting.fs
     OUTFRAGNAMES fs_shadowvolume_color_lighting fs_shadowvolume_color_texture fs_shadowvolume_svbackblank fs_shadowvolume_svbackcolor fs_shadowvolume_svbacktex1 fs_shadowvolume_svbacktex2 fs_shadowvolume_svfrontblank fs_shadowvolume_svfrontcolor fs_shadowvolume_svfronttex1 fs_shadowvolume_svfronttex2 fs_shadowvolume_svside fs_shadowvolume_svsideblank fs_shadowvolume_svsidecolor fs_shadowvolume_svsidetex fs_shadowvolume_texture fs_shadowvolume_texture_lighting
 )
+
+addexample(
+    DIRNAME "15-shadowmaps-single"
+    VERTSHADERS sms_mesh.vs sms_shadow.vs sms_shadow_pd.vs
+    OUTVERTNAMES vs_sms_mesh vs_sms_shadow vs_sms_shadow_pd
+    FRAGSHADERS sms_mesh.fs sms_mesh_pd.fs sms_shadow.fs sms_shadow_pd.fs
+    OUTFRAGNAMES fs_sms_mesh fs_sms_mesh_pd fs_sms_shadow fs_sms_shadow_pd
+)
