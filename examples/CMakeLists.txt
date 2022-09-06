@@ -215,11 +215,18 @@ addexample(
     OUTFRAGNAMES fs_sms_mesh fs_sms_mesh_pd fs_sms_shadow fs_sms_shadow_pd
 )
 
-
 addexample(
     DIRNAME "18-ibl"
     VERTSHADERS ibl_mesh.vs ibl_skybox.vs
     OUTVERTNAMES vs_ibl_mesh vs_ibl_skybox
     FRAGSHADERS ibl_mesh.fs ibl_skybox.fs
     OUTFRAGNAMES fs_ibl_mesh fs_ibl_skybox
+)
+
+addexample(
+    DIRNAME "27-terrain"
+    VERTSHADERS terrain.vs terrain_height_texture.vs
+    OUTVERTNAMES vs_terrain vs_terrain_height_texture
+    FRAGSHADERS terrain.fs
+    OUTFRAGNAMES fs_terrain
 )
