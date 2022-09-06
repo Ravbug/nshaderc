@@ -230,3 +230,11 @@ addexample(
     FRAGSHADERS terrain.fs
     OUTFRAGNAMES fs_terrain
 )
+
+addexample(
+    DIRNAME "33-pom"
+    VERTSHADERS pom.vs
+    OUTVERTNAMES vs_pom
+    FRAGSHADERS pom.fs
+    OUTFRAGNAMES fs_pom
+)

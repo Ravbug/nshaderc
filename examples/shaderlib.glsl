@@ -278,3 +278,8 @@ vec3 fixCubeLookup(vec3 _v, float _lod, float _topLevelCubeSize)
     if (az != vmax) { _v.z *= scale; }
     return _v;
 }
+
+vec2 texture2DBc5(sampler2D _sampler, vec2 _uv)
+{
+    return texture(_sampler, _uv).xy;
+}
