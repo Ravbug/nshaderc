@@ -22,6 +22,7 @@ vec4 vec4_splat(float _x) { return vec4(_x, _x, _x, _x); }
 #define SAMPLER2DSHADOW(name,b) layout(binding=b) uniform sampler2DShadow name
 #define SAMPLER2D(name,b) layout(binding=b) uniform sampler2D name
 #define SAMPLER3D(name,b) layout(binding=b) uniform sampler3D name
+#define SAMPLERCUBE(name,b) layout(binding=b) uniform samplerCube name
 
 float decodeRE8(vec4 _re8)
 {
@@ -259,4 +260,21 @@ vec4 packFloatToRgba(float _value)
     vec4 comp = fract(_value * shift);
     comp -= comp.xxyz * mask;
     return comp;
+}
+
+
+vec3 fixCubeLookup(vec3 _v, float _lod, float _topLevelCubeSize)
+{
+    // Reference(s):
+    // - Seamless cube-map filtering
+    //   https://web.archive.org/web/20190411181934/http://the-witness.net/news/2012/02/seamless-cube-map-filtering/
+    float ax = abs(_v.x);
+    float ay = abs(_v.y);
+    float az = abs(_v.z);
+    float vmax = max(max(ax, ay), az);
+    float scale = 1.0 - exp2(_lod) / _topLevelCubeSize;
+    if (ax != vmax) { _v.x *= scale; }
+    if (ay != vmax) { _v.y *= scale; }
+    if (az != vmax) { _v.z *= scale; }
+    return _v;
 }

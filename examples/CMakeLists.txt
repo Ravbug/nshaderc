@@ -214,3 +214,12 @@ addexample(
     FRAGSHADERS sms_mesh.fs sms_mesh_pd.fs sms_shadow.fs sms_shadow_pd.fs
     OUTFRAGNAMES fs_sms_mesh fs_sms_mesh_pd fs_sms_shadow fs_sms_shadow_pd
 )
+
+
+addexample(
+    DIRNAME "18-ibl"
+    VERTSHADERS ibl_mesh.vs ibl_skybox.vs
+    OUTVERTNAMES vs_ibl_mesh vs_ibl_skybox
+    FRAGSHADERS ibl_mesh.fs ibl_skybox.fs
+    OUTFRAGNAMES fs_ibl_mesh fs_ibl_skybox
+)
