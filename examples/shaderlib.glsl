@@ -2,6 +2,7 @@ uniform mat4 u_model[32];
 uniform mat4 u_modelView;
 uniform mat4 u_modelViewProj;
 uniform mat4 u_viewProj;
+uniform mat4 u_proj;
 uniform	mat4 u_view;
 uniform	vec4 u_viewTexel;
 uniform	vec4 u_viewRect;
@@ -283,3 +284,47 @@ vec2 texture2DBc5(sampler2D _sampler, vec2 _uv)
 {
     return texture(_sampler, _uv).xy;
 }
+
+// compute things for compatibility with old shaderc...
+#define drawIndirect( \
+      _buffer         \
+    , _offset         \
+    , _numVertices    \
+    , _numInstances   \
+    , _startVertex    \
+    , _startInstance  \
+    )                 \
+    _buffer[(_offset)*2+0] = uvec4(_numVertices, _numInstances, _startVertex, _startInstance)
+
+#define drawIndexedIndirect( \
+      _buffer                \
+    , _offset                \
+    , _numIndices            \
+    , _numInstances          \
+    , _startIndex            \
+    , _startVertex           \
+    , _startInstance         \
+    )                        \
+    _buffer[(_offset)*2+0] = uvec4(_numIndices, _numInstances, _startIndex, _startVertex); \
+    _buffer[(_offset)*2+1] = uvec4(_startInstance, 0u, 0u, 0u)
+
+#define dispatchIndirect( \
+      _buffer             \
+    , _offset             \
+    , _numX               \
+    , _numY               \
+    , _numZ               \
+    )                     \
+    _buffer[(_offset)*2+0] = uvec4(_numX, _numY, _numZ, 0u)
+
+#define COMPAT_BUFFER_XX(_name, _type, _reg, _access)                \
+    layout(std430, binding=_reg) _access buffer _name ## Buffer \
+    {                                                           \
+        _type _name[];                                          \
+    }
+
+#define BUFFER_RO(_name, _type, _reg) COMPAT_BUFFER_XX(_name, _type, _reg, readonly)
+#define BUFFER_RW(_name, _type, _reg) COMPAT_BUFFER_XX(_name, _type, _reg, readwrite)
+#define BUFFER_WR(_name, _type, _reg) COMPAT_BUFFER_XX(_name, _type, _reg, writeonly)
+
+#define NUM_THREADS(_x, _y, _z) layout (local_size_x = _x, local_size_y = _y, local_size_z = _z) in;

@@ -189,6 +189,7 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 				bgfx_type = UniformType::Sampler;
 				break;
 			case 0x8B52: // GL_FLOAT_VEC4:
+            case 0x8dc8:
 				bgfx_type = UniformType::Vec4;
 				break;
 			case 0x8B5B: // GL_FLOAT_MAT3:
@@ -213,7 +214,14 @@ std::vector<char> makeBGFXShaderBinary(const shadert::CompileResult& result, sha
 		uniformDataSize += regCount * 16;
 	}
 
-	// then write the shader data itself
+	// compute dimension data comes next
+    if (stage == decltype(stage)::Compute){
+        for (const auto value : result.data.reflectData.compute_dim){
+            insertItem(output, value);
+        }
+    }
+    
+    // then write the shader data itself
 	const std::string& shaderData = result.data.binaryData.size() > 0 ? result.data.binaryData : result.data.sourceData;
 	insertItem(output, uint32_t(shaderData.size()));	// shader size
 	insertBytes(output, shaderData.data(), shaderData.size());

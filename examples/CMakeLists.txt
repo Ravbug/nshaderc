@@ -47,7 +47,7 @@ function(addexample_impl)
 	add_custom_target("example-${ARGS_DIRNAME}-${ARGS_API}" DEPENDS nshaderc ${all_depends})
 
 
-	file(GLOB SHADERS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/*.glsl" "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/*.fs" "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/*.vs")
+	file(GLOB SHADERS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/*.glsl" "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/*.comp" "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/*.sh" "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/*.fs" "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/*.vs")
 	set_source_files_properties(${SHADERS} PROPERTIES HEADER_FILE_ONLY TRUE LANGUAGE OpenGL) 	# prevent VS from compiling these
 	target_sources("example-${ARGS_DIRNAME}-${ARGS_API}" PRIVATE ${SHADERS})	# display them in the IDE
 
@@ -237,4 +237,15 @@ addexample(
     OUTVERTNAMES vs_pom
     FRAGSHADERS pom.fs
     OUTFRAGNAMES fs_pom
+)
+
+addexample(
+    DIRNAME "24-nbody"
+    VERTSHADERS particle.vs
+    OUTVERTNAMES vs_particle
+    FRAGSHADERS particle.fs
+    OUTFRAGNAMES fs_particle
+    
+    COMPSHADERS indirect.comp init_instances.comp update_instances.comp
+    OUTCOMPNAMES cs_indirect cs_init_instances cs_update_instances
 )
