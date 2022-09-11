@@ -328,3 +328,28 @@ vec2 texture2DBc5(sampler2D _sampler, vec2 _uv)
 #define BUFFER_WR(_name, _type, _reg) COMPAT_BUFFER_XX(_name, _type, _reg, writeonly)
 
 #define NUM_THREADS(_x, _y, _z) layout (local_size_x = _x, local_size_y = _y, local_size_z = _z) in;
+
+#define COMPAT_IMAGE_XX(_name, _format, _reg, _image, _access) \
+    layout(_format, binding=_reg) _access uniform highp _image _name
+
+#define readwrite
+#define IMAGE2D_RO( _name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, image2D,  readonly)
+#define UIMAGE2D_RO(_name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, uimage2D, readonly)
+#define IMAGE2D_WR( _name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, image2D,  writeonly)
+#define UIMAGE2D_WR(_name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, uimage2D, writeonly)
+#define IMAGE2D_RW( _name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, image2D,  readwrite)
+#define UIMAGE2D_RW(_name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, uimage2D, readwrite)
+
+#define IMAGE2D_ARRAY_RO( _name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, image2DArray,  readonly)
+#define UIMAGE2D_ARRAY_RO(_name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, uimage2DArray, readonly)
+#define IMAGE2D_ARRAY_WR( _name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, image2DArray,  writeonly)
+#define UIMAGE2D_ARRAY_WR(_name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, uimage2DArray, writeonly)
+#define IMAGE2D_ARRAY_RW( _name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, image2DArray,  readwrite)
+#define UIMAGE2D_ARRAY_RW(_name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, uimage2DArray, readwrite)
+
+#define IMAGE3D_RO( _name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, image3D,  readonly)
+#define UIMAGE3D_RO(_name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, uimage3D, readonly)
+#define IMAGE3D_WR( _name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, image3D,  writeonly)
+#define UIMAGE3D_WR(_name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, uimage3D, writeonly)
+#define IMAGE3D_RW( _name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, image3D,  readwrite)
+#define UIMAGE3D_RW(_name, _format, _reg) COMPAT_IMAGE_XX(_name, _format, _reg, uimage3D, readwrite)

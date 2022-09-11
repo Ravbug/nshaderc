@@ -245,7 +245,16 @@ addexample(
     OUTVERTNAMES vs_particle
     FRAGSHADERS particle.fs
     OUTFRAGNAMES fs_particle
-    
     COMPSHADERS indirect.comp init_instances.comp update_instances.comp
     OUTCOMPNAMES cs_indirect cs_init_instances cs_update_instances
+)
+
+addexample(
+    DIRNAME "37-gpudrivenrendering"
+    VERTSHADERS gdr_instanced_indirect_rendering.vs gdr_render_occlusion.vs
+    OUTVERTNAMES vs_gdr_instanced_indirect_rendering vs_gdr_render_occlusion
+    FRAGSHADERS gdr_instanced_indirect_rendering.fs
+    OUTFRAGNAMES fs_gdr_instanced_indirect_rendering
+    COMPSHADERS gdr_copy_z.comp gdr_downscale_hi_z.comp gdr_occlude_props.comp gdr_stream_compaction.comp
+    OUTCOMPNAMES cs_gdr_copy_z cs_gdr_downscale_hi_z cs_gdr_occlude_props cs_gdr_stream_compaction
 )
