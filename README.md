@@ -1,5 +1,5 @@
 # nshaderc
-A work-in-progress replacement shader compiler for bgfx. It is not backwards compatible with the existing bgfx shader compiler.
+A work-in-progress replacement shader compiler for bgfx. It is not backwards-compatible with the existing bgfx shader compiler.
 
 **Goals**
 1. To take only standard GLSL as input
@@ -8,8 +8,18 @@ A work-in-progress replacement shader compiler for bgfx. It is not backwards com
 4. To be linkable as a library for runtime shader compilation
 
 **Non-goals**
-1. To support the DX9, NVN, PSSL, and legacy OpenGL backends  
+1. To support the DX9, NVN, and PSSL backends  
 2. To support legacy compilers or C++ versions
+3. To be backwards-compatibile with the existing bgfx shader compiler
+
+**Progress**
+- [x] Metal
+- [] Vulkan
+- [] OpenGL
+- [] OpenGL ES
+- [] DX9
+- [] DX11
+- [] DX12 
 
 ### Usage
 Run `nshaderc --help` for a menu of options. To specify the compatibility version, supply the major and minor versions 
