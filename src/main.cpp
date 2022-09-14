@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
 			}}
 		};
 		try{
-			const auto& data = apiMap.at(apiString);
+			auto& data = apiMap.at(apiString);
 			api = data.e_api;
 			opt = std::move(data.options);
 		}
@@ -140,6 +140,7 @@ int main(int argc, char** argv) {
 
 		// make bgfx binary
 		auto binary = makeBGFXShaderBinary(result, inputStage);
+		std::filesystem::create_directories(outputFile.parent_path());		// make all the folders necessary
 		ofstream out(outputFile, ios::out | ios::binary);
 		out.write(binary.data(), binary.size() * sizeof(decltype(binary)::value_type));
 		if (!out.good()){

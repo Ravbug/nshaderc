@@ -14,12 +14,13 @@ A work-in-progress replacement shader compiler for bgfx. It is not backwards-com
 
 **Progress**
 - [x] Metal
-- [] Vulkan
-- [] OpenGL
-- [] OpenGL ES
-- [] DX9
-- [] DX11
-- [] DX12 
+- [ ] Metal Binary
+- [ ] Vulkan
+- [ ] OpenGL
+- [ ] OpenGL ES
+- [ ] DX9
+- [ ] DX11
+- [ ] DX12 
 
 ### Usage
 Run `nshaderc --help` for a menu of options. To specify the compatibility version, supply the major and minor versions 

@@ -15,33 +15,33 @@ function(addexample_impl)
 	
 	set(all_depends "")
 	foreach(item IN LISTS ARGS_OUTVERTNAMES ARGS_OUTFRAGNAMES ARGS_OUTCOMPNAMES)
-		list(APPEND all_depends "${OUTPUT_DIR}${item}.bin")
+		list(APPEND all_depends "${OUTPUT_DIR}${ARGS_API}/${item}.bin")
 	endforeach()
 
 	foreach(item IN ZIP_LISTS ARGS_VERTSHADERS ARGS_OUTVERTNAMES)
 		add_custom_command(
-			OUTPUT "${OUTPUT_DIR}${item_1}.bin"
+			OUTPUT "${OUTPUT_DIR}${ARGS_API}/${item_1}.bin"
 			DEPENDS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" "${CMAKE_CURRENT_LIST_DIR}/shaderlib.glsl" nshaderc
 			COMMENT Compiling "${item_0}"
-			COMMAND "${NSHADERC}" -f "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" -o "${OUTPUT_DIR}${item_1}.bin" --stage vertex --api ${ARGS_API} -c ${ARGS_VERSION}
+			COMMAND "${NSHADERC}" -f "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" -o "${OUTPUT_DIR}${ARGS_API}/${item_1}.bin" --stage vertex --api ${ARGS_API} -c ${ARGS_VERSION}
 		)
 	endforeach()
 
 	foreach(item IN ZIP_LISTS ARGS_FRAGSHADERS ARGS_OUTFRAGNAMES)
 		add_custom_command(
-			OUTPUT "${OUTPUT_DIR}${item_1}.bin"
+			OUTPUT "${OUTPUT_DIR}${ARGS_API}/${item_1}.bin"
 			DEPENDS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" "${CMAKE_CURRENT_LIST_DIR}/shaderlib.glsl" nshaderc
 			COMMENT Compiling "${item_0}"
-			COMMAND "${NSHADERC}" -f "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" -o "${OUTPUT_DIR}${item_1}.bin" --stage fragment --api ${ARGS_API} -c ${ARGS_VERSION}
+			COMMAND "${NSHADERC}" -f "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" -o "${OUTPUT_DIR}${ARGS_API}/${item_1}.bin" --stage fragment --api ${ARGS_API} -c ${ARGS_VERSION}
 		)
 	endforeach()
 
 	foreach(item IN ZIP_LISTS ARGS_COMPSHADERS ARGS_OUTCOMPNAMES)
 		add_custom_command(
-			OUTPUT "${OUTPUT_DIR}${item_1}.bin"
+			OUTPUT "${OUTPUT_DIR}${ARGS_API}/${item_1}.bin"
 			DEPENDS "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" "${CMAKE_CURRENT_LIST_DIR}/shaderlib.glsl" nshaderc
 			COMMENT Compiling "${item_0}"
-			COMMAND "${NSHADERC}" -f "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" -o "${OUTPUT_DIR}${item_1}.bin" --stage compute --api ${ARGS_API} -c ${ARGS_VERSION}
+			COMMAND "${NSHADERC}" -f "${CMAKE_CURRENT_LIST_DIR}/${ARGS_DIRNAME}/${item_0}" -o "${OUTPUT_DIR}${ARGS_API}/${item_1}.bin" --stage compute --api ${ARGS_API} -c ${ARGS_VERSION}
 		)
 	endforeach()
 	add_custom_target("example-${ARGS_DIRNAME}-${ARGS_API}" DEPENDS nshaderc ${all_depends})
@@ -94,12 +94,39 @@ function(addexample)
 			FRAGSHADERS ${ARGS_FRAGSHADERS}
 			OUTFRAGNAMES ${ARGS_OUTFRAGNAMES}
 		)
+		addexample_impl(
+			DIRNAME ${ARGS_DIRNAME}
+			API OpenGL
+			VERSION 120
+			VERTSHADERS ${ARGS_VERTSHADERS}
+			OUTVERTNAMES ${ARGS_OUTVERTNAMES}
+			FRAGSHADERS ${ARGS_FRAGSHADERS}
+			OUTFRAGNAMES ${ARGS_OUTFRAGNAMES}
+		)
+		addexample_impl(
+			DIRNAME ${ARGS_DIRNAME}
+			API OpenGLES
+			VERSION 330
+			VERTSHADERS ${ARGS_VERTSHADERS}
+			OUTVERTNAMES ${ARGS_OUTVERTNAMES}
+			FRAGSHADERS ${ARGS_FRAGSHADERS}
+			OUTFRAGNAMES ${ARGS_OUTFRAGNAMES}
+		)
 	else()
 		# Linux & unidentified
 		addexample_impl(
 			DIRNAME ${ARGS_DIRNAME}
 			API Vulkan
 			VERSION 15
+			VERTSHADERS ${ARGS_VERTSHADERS}
+			OUTVERTNAMES ${ARGS_OUTVERTNAMES}
+			FRAGSHADERS ${ARGS_FRAGSHADERS}
+			OUTFRAGNAMES ${ARGS_OUTFRAGNAMES}
+		)
+		addexample_impl(
+			DIRNAME ${ARGS_DIRNAME}
+			API OpenGL
+			VERSION 460
 			VERTSHADERS ${ARGS_VERTSHADERS}
 			OUTVERTNAMES ${ARGS_OUTVERTNAMES}
 			FRAGSHADERS ${ARGS_FRAGSHADERS}
